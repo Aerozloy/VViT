@@ -1,4 +1,3 @@
-import requests
 from flask import Flask, render_template, request, redirect  # импортируем необходимые иструменты
 import psycopg2
 
@@ -46,12 +45,12 @@ def registration():
             return render_template('registration.html', error="Введите пароль")
         if not login1:
             return render_template('registration.html', error="Введите логин")
-        cursor.execute("SELECT * FROM service.users WHERE login='{login1}'".\
+        cursor.execute("SELECT * FROM service.users WHERE login='{login1}'". \
                        format(login1=login1))
         records = list(cursor.fetchall())
         if not records:
             cursor.execute('INSERT INTO service.users (full_name, login, password) VALUES (%s, %s, %s);',
-                               (str(name), str(login1), str(password)))
+                           (str(name), str(login1), str(password)))
             conn.commit()
             return redirect('/login/')
         else:
